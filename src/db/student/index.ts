@@ -15,3 +15,12 @@ export function prismaAddStudent(prisma: PrismaService, studentModel: StudentDat
 export function prismaGetAllStudents(prisma: PrismaService): Promise<Student[]> {
     return prisma.student.findMany();
 }
+
+export function prismaDeleteStudent(prisma: PrismaService, studentId: string) {
+    return prisma.student.delete({
+        where:{
+            id: studentId
+        },
+        
+    })
+}

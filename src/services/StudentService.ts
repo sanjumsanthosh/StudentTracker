@@ -1,6 +1,6 @@
 import { PrismaService } from "./PrismaService";
 import { StudentDataModel } from "../models/StudentModel";
-import { prismaAddStudent, prismaGetAllStudents } from "../db/student";
+import { prismaAddStudent, prismaDeleteStudent, prismaGetAllStudents } from "../db/student";
 import { Student } from "@prisma/client";
 import { ExceptionTypes, PrismaClientException } from "../errors/PrismaClientException";
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
@@ -36,5 +36,9 @@ export class StudentService {
 
     async getAllStudents(): Promise<Student[]> {
       return await prismaGetAllStudents(this.prisma);
+    }
+
+    async deleteStudent(registerStudentModel: StudentDataModel) {
+      return await prismaDeleteStudent(this.prisma, registerStudentModel.studentID!);
     }
 }
