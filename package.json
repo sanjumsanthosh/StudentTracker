@@ -10,13 +10,16 @@
     "test": "pnpm run test:lint && pnpm run test:coverage",
     "test:unit": "cross-env NODE_ENV=test jest",
     "test:coverage": "pnpm run test:unit",
-    "prisma:migrate": "npx prisma migrate dev --name init",
-    "prisma:generate": "npx prisma generate",
+    "prisma:migrate": "pnpx prisma migrate dev --name init",
+    "prisma:generate": "pnpx prisma generate",
     "test:lint": "eslint '**/*.{ts,js}'",
     "test:lint:fix": "eslint '**/*.{ts,js}' --fix",
-    "prettier": "prettier '**/*.{ts,js,json,md,yml,yaml}' --write"
+    "prettier": "prettier '**/*.{ts,js,json,md,yml,yaml}' --write",
+    "prisma:studio": "pnpx prisma studio",
+    "docker-compose": "docker compse up -d"
   },
   "dependencies": {
+    "@babel/plugin-proposal-object-rest-spread": "^7.20.7",
     "@prisma/client": "^5.2.0",
     "@tsed/ajv": "^7.34.6",
     "@tsed/common": "^7.34.6",

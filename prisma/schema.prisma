@@ -5,17 +5,38 @@ generator client {
   provider = "prisma-client-js"
 }
 
-datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
-}
-
 generator tsed {
   provider = "tsed-prisma"
 }
 
-model User {
-  id    Int     @default(autoincrement()) @id
-  email String  @unique
-  name  String?
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model Student {
+  id        String      @id @default(uuid())
+  name      String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  busRides  BusRide[]
+}
+
+model Bus {
+  id        String      @id @default(uuid())
+  busNumber String
+  capacity  Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  busRides  BusRide[]
+}
+
+model BusRide {
+  id          Int      @id @default(autoincrement())
+  student     Student  @relation(fields: [studentId], references: [id])
+  studentId   String
+  bus         Bus      @relation(fields: [busId], references: [id])
+  busId       String
+  rideStarted DateTime @default(now())
+  rideEnded   DateTime?
 }
