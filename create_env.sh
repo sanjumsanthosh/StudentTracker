@@ -18,3 +18,4 @@ echo "Enter your database name: "
 read database
 
 echo "DATABASE_URL=mysql://$username:$password@localhost:3306/$database" > .env
+echo "DATABASE_URL=mysql://$username:$password@host.docker.internal:3306/$database" > .env.docker
