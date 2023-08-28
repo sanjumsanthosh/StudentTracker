@@ -15,6 +15,7 @@
     "test:unit": "cross-env NODE_ENV=test jest",
     "test:coverage": "pnpm run test:unit",
     "prisma:migrate": "pnpx prisma migrate dev --name init",
+    "prisma:push": "prisma db push",
     "prisma:generate": "pnpx prisma generate",
     "test:lint": "eslint '**/*.{ts,js}'",
     "test:lint:fix": "eslint '**/*.{ts,js}' --fix",
