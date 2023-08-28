@@ -16,6 +16,14 @@ export function prismaGetAllStudents(prisma: PrismaService): Promise<Student[]> 
     return prisma.student.findMany();
 }
 
+export function prismaGetStudentById(prisma: PrismaService, studentId: string) {
+    return prisma.student.findUnique({
+        where:{
+            id: studentId
+        },
+    })
+}
+
 export function prismaDeleteStudent(prisma: PrismaService, studentId: string) {
     return prisma.student.delete({
         where:{
