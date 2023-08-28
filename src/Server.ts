@@ -8,6 +8,7 @@ import {config} from "./config/index";
 import * as rest from "./controllers/rest/index";
 import * as pages from "./controllers/pages/index";
 
+import { BasicAuthProtocol } from "./protocol/BasicAuthProtocol";
 @Configuration({
   ...config,
   acceptMimes: ["application/json"],
@@ -22,19 +23,45 @@ import * as pages from "./controllers/pages/index";
       ...Object.values(pages)
     ]
   },
+  passport:{
+    disableSession: true
+  },
   swagger: [
     {
       path: "/doc",
-      specVersion: "3.0.1"
+      specVersion: "3.0.1",
+      spec:{
+        components: {
+          securitySchemes: {
+            basic: {
+              type: "http",
+              scheme: "basic",
+              bearerFormat: ""
+            }
+          }
+        }
+      }
     }
   ],
+  imports: [BasicAuthProtocol],
   middlewares: [
     "cors",
     "cookie-parser",
     "compression",
     "method-override",
     "json-parser",
-    { use: "urlencoded-parser", options: { extended: true }}
+    { use: "urlencoded-parser", options: { extended: true }},
+    { use: "express-session", options: {
+      secret: "mysecretkey",
+      resave: true,
+      saveUninitialized: true,
+      // maxAge: 36000,
+      cookie: {
+        path: "/",
+        httpOnly: true,
+        secure: false
+      }
+    } }
   ],
   views: {
     root: join(process.cwd(), "../views"),

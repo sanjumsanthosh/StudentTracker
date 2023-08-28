@@ -6,3 +6,4 @@
 export * from "./HelloWorldController";
 export * from "./StudentController";
 export * from "./BusController";
+export * from "./UserController";

@@ -4,9 +4,12 @@ import { Delete, Get, Groups, Patch, Post, Returns, Summary } from "@tsed/schema
 import { BusDataModel } from "../../models/BusModel";
 import { BusService } from "../../services/BusService";
 import { NotFound } from "@tsed/exceptions";
+import { UserType } from "@prisma/client";
+import { AuthRoles } from "../../decorators/authRoles";
+import { BasicAuth } from "../../decorators/basicAuth";
 
 
-
+@BasicAuth()
 @Controller('/bus')
 export class BusController{
     constructor(
@@ -16,6 +19,7 @@ export class BusController{
 
     @Get('/')
     @Summary("Get all buses")
+    @AuthRoles(UserType.ADMIN, UserType.STAFF)
     async getAllBusDetails() {
         this.logger.info("Get all buses details");
         const buses = await this.busService.getAllBuses();
@@ -26,6 +30,7 @@ export class BusController{
     @Summary("Get bus by id")
     @Returns(200, BusDataModel)
     @Returns(404).Description("Not found")
+    @AuthRoles(UserType.ADMIN, UserType.STAFF)
     async getBusById(
         @PathParams("busID") busID: string
     ) {
@@ -42,6 +47,7 @@ export class BusController{
     @Summary("Register new bus")
     @Returns(201)
     @Returns(409).Description("Bus already exist")
+    @AuthRoles(UserType.ADMIN, UserType.STAFF)
     async registerNewBus(
         @BodyParams() @Groups("creation") registerBusModel: BusDataModel
     ) {
@@ -54,6 +60,7 @@ export class BusController{
     @Summary("Update bus")
     @Returns(201)
     @Returns(404).Description("Bus not found")
+    @AuthRoles(UserType.ADMIN, UserType.STAFF)
     async updateBus(
         @PathParams("busID") busID: string,
         @BodyParams() @Groups("update") registerBusModel: BusDataModel
@@ -67,6 +74,7 @@ export class BusController{
     @Summary("Delete new bus")
     @Returns(204)
     @Returns(404).Description("Bus not found")
+    @AuthRoles(UserType.ADMIN, UserType.STAFF)
     async deleteBus(
         @PathParams("busID") busID: string
     ) {
