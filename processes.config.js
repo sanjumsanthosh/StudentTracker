@@ -7,8 +7,8 @@ module.exports = {
   'apps': [
     {
       name: "api",
-      'script': `${process.env.WORKDIR}/dist/index.js`,
-      'cwd': process.env.WORKDIR,
+      'script': path.join(process.env.WORKDIR || '.', 'dist', 'index.js'),
+      'cwd': process.env.WORKDIR || '.',
       node_args: process.env.NODE_ARGS || "--max_old_space_size=1800",
       exec_mode: "cluster",
       instances: process.env.NODE_ENV === "test" ? 1 : process.env.NB_INSTANCES || 2,
@@ -18,6 +18,9 @@ module.exports = {
       'error_file': defaultLogFile,
       'merge_logs': true,
       'kill_timeout': 30000,
+      env: {
+        NODE_ENV: 'production'
+      }
     }
   ]
 }

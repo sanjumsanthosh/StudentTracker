@@ -21,13 +21,11 @@ WORKDIR /opt
 
 COPY package.json pnpm-lock.yaml tsconfig.json tsconfig.compile.json .barrelsby.json .babelrc ./prisma ./
 
-RUN npm install -g pnpm
-RUN pnpm install --frozen-lockfile
+RUN npm install -g pnpm && pnpm install --frozen-lockfile
 
 COPY ./src ./src
 
-RUN pnpm run prisma:generate
-RUN pnpm run build
+RUN pnpm run prisma:generate && pnpm run build
 
 
 FROM node:${NODE_VERSION}-alpine as runtime
@@ -39,7 +37,7 @@ RUN npm install -g pm2 pnpm
 
 COPY --from=build /opt .
 
-RUN pnpm install --frozen-lockfile --production
+RUN pnpm prune --prod
 COPY ./prisma ./prisma
 COPY ./views ./views
 COPY processes.config.js .
