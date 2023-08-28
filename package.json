@@ -25,7 +25,9 @@
     "docker:infra:dowm": "docker compose down",
     "docker:build": "docker compose -f docker-compose.build.yml build",
     "docker:start": "docker compose -f docker-compose.build.yml up -d",
-    "docker:push": "docker push docker.io/sanjumsanthosh/student-tracker:latest"
+    "docker:push": "docker push docker.io/sanjumsanthosh/student-tracker:latest",
+    "docker:monitor:up": "docker compose -f docker-compose.monitor.yaml up -d",
+    "docker:monitor:down": "docker compose -f docker-compose.monitor.yaml down"
   },
   "dependencies": {
     "@babel/plugin-proposal-object-rest-spread": "^7.20.7",
