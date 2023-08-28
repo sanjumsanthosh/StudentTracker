@@ -22,8 +22,8 @@
     "prisma:studio": "pnpx prisma studio",
     "docker:infra:up": "docker compose up -d",
     "docker:infra:dowm": "docker compose down",
-    "docker:build": "docker-compose -f docker-compose.build.yml build",
-    "docker:start": "docker-compose -f docker-compose.build.yml up -d",
+    "docker:build": "docker compose -f docker-compose.build.yml build",
+    "docker:start": "docker compose -f docker-compose.build.yml up -d",
     "docker:push": "docker push docker.io/sanjumsanthosh/student-tracker:latest"
   },
   "dependencies": {
