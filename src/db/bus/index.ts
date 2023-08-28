@@ -19,7 +19,8 @@ export function prismaUpdateBus(prisma: PrismaService, busID:string, busModel: B
             id: busID
         },
         data: {
-            capacity: busModel.capacity
+            capacity: busModel.capacity,
+            updatedAt: new Date()
         }
     })
 }
