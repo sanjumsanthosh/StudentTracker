@@ -14,18 +14,20 @@
 ##                                                                           ##
 ###############################################################################
 ###############################################################################
-ARG NODE_VERSION=16.13.1
+ARG NODE_VERSION=16.14
 
 FROM node:${NODE_VERSION}-alpine as build
 WORKDIR /opt
 
-COPY package.json yarn.lock tsconfig.json tsconfig.compile.json .barrelsby.json ./
+COPY package.json pnpm-lock.yaml tsconfig.json tsconfig.compile.json .barrelsby.json .babelrc ./prisma ./
 
-RUN yarn install --pure-lockfile
-
+RUN npm install -g pnpm
+RUN pnpm install --frozen-lockfile
 
 COPY ./src ./src
 
+RUN pnpm run prisma:generate
+RUN pnpm run build
 
 
 FROM node:${NODE_VERSION}-alpine as runtime
@@ -33,11 +35,11 @@ ENV WORKDIR /opt
 WORKDIR $WORKDIR
 
 RUN apk update && apk add build-base git curl
-RUN npm install -g pm2
+RUN npm install -g pm2 pnpm
 
 COPY --from=build /opt .
 
-RUN yarn install --pure-lockfile --production
+RUN pnpm install --frozen-lockfile --production
 COPY ./prisma ./prisma
 COPY ./views ./views
 COPY processes.config.js .
